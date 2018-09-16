@@ -11,22 +11,33 @@ namespace Lab01.StringDistanceMeasure
         private string _wordA, _wordB;
         private int _result;
         private LetterMatrix _matrix;
+
+        private bool _calculated = false;
+
         public LevenshteinRecursive(string a, string b)
         {
             _wordA = a;
             _wordB = b;
             _matrix = new LetterMatrix(a, b);
-
-            _result = D(_wordA.Length, _wordB.Length);
         }
 
         public sealed override int GetDistance()
         {
+            if (!_calculated)
+            {
+                _result = D(_wordA.Length, _wordB.Length);
+                _calculated = true;
+            }
             return _result;
         }
 
         public override LetterMatrix GetLetterMatrix()
         {
+            if (!_calculated)
+            {
+                _result = D(_wordA.Length, _wordB.Length);
+                _calculated = true;
+            }
             return _matrix;
         }
 
@@ -59,5 +70,7 @@ namespace Lab01.StringDistanceMeasure
         }
 
         public override string MethodName => "Расстояние Левенштейна (рекурсивная реализация)";
+
+        
     }
 }

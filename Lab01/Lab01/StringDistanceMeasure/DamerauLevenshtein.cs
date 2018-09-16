@@ -11,20 +11,33 @@ namespace Lab01.StringDistanceMeasure
         private string _first, _second;
         private int _result;
         private LetterMatrix _matrix;
+
+        private bool _calculated;
         public DamerauLevenshtein(string a, string b)
         {
             _first = a;
             _second = b;
-            Calculate();
+
+            _matrix = new LetterMatrix(_first, _second);
         }
 
         public override int GetDistance()
         {
+            if (!_calculated)
+            {
+                Calculate();
+                _calculated = true;
+            }
             return _result;
         }
 
         public override LetterMatrix GetLetterMatrix()
         {
+            if (!_calculated)
+            {
+                Calculate();
+                _calculated = true;
+            }
             return _matrix;
         }
 
@@ -32,7 +45,6 @@ namespace Lab01.StringDistanceMeasure
 
         private void Calculate()
         {
-            _matrix = new LetterMatrix(_first, _second);
             int s1Len = _first.Length;
             int s2Len = _second.Length;
 
