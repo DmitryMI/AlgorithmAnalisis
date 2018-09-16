@@ -26,13 +26,20 @@ namespace Lab01
 
                 if(distance == null)
                     continue;
-                
+
+                DateTime now = DateTime.Now;
+
                 int result = distance.GetDistance();
+
+                TimeSpan span = DateTime.Now - now;
+
                 LetterMatrix matrix = distance.GetLetterMatrix();
                 Console.WriteLine("Метод: " + distance.MethodName);
                 Console.WriteLine("Значение: " + result);
                 Console.WriteLine("Матрица: \n");
                 Console.Write(matrix.ToString());
+                
+                Console.WriteLine("Прошло времени (тиков): " + span.Ticks);
                 Console.WriteLine("\n");
             }
 
