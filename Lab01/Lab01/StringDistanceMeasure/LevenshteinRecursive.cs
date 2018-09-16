@@ -50,33 +50,12 @@ namespace Lab01.StringDistanceMeasure
 
             int I = D(i, j - 1) + 1;
             int R = D(i - 1, j) + 1;
-            int M = D(i - 1, j - 1) + m(_wordA[i - 1], _wordB[j - 1]);
+            int M = D(i - 1, j - 1) + Match(_wordA[i - 1], _wordB[j - 1]);
             int min = Min(I, R, M);
 
             _matrix[i, j] = min;
 
             return min;
-        }
-
-        private int m(char a, char b)
-        {
-            if (a == b)
-                return 0;
-            return 1;
-        }
-
-        private bool LesserThanOthers(int value, int a, int b)
-        {
-            return value <= a && value <= b;
-        }
-
-        private int Min(int a, int b, int c)
-        {
-            if (LesserThanOthers(a, b, c))
-                return a;
-            if (LesserThanOthers(b, a, c))
-                return b;
-            return c;
         }
 
         public override string MethodName => "Расстояние Левенштейна (рекурсивная реализация)";

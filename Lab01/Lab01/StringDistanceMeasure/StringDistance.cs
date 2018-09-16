@@ -17,10 +17,10 @@ namespace Lab01.StringDistanceMeasure
                 switch (measure)
                 {
                     case Measure.Levenshtein:
-                        //instance = new LevenshteinDistance(a, b);
+                        instance = new LevenshteinDistance(a, b);
                         break;
                     case Measure.DamerauLevenshtein:
-                        //instance = new LevenshteinDistance(a, b);
+                        instance = new DamerauLevenshtein(a, b);
                         break;
                     case Measure.LevenshteinRecursive:
                         instance = new LevenshteinRecursive(a, b);
@@ -37,5 +37,29 @@ namespace Lab01.StringDistanceMeasure
 
         public abstract LetterMatrix GetLetterMatrix();
         public abstract string MethodName { get; }
+
+        protected int Min(int a, int b, int c)
+        {
+            if (a <= b && a <= c)
+                return a;
+            if (b <= a && b <= c)
+                return b;
+            return c;
+        }
+
+        protected int Min(int a, int b, int c, int d)
+        {
+            int min3 = Min(a, b, c);
+            if (d < min3)
+                return d;
+            return min3;
+        }
+
+        protected int Match(char a, char b)
+        {
+            if (a == b)
+                return 0;
+            return 1;
+        }
     }
 }

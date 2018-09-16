@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace Lab01.StringDistanceMeasure
 {
-    class LevenshteinDistance : StringDistance
+    class DamerauLevenshtein : StringDistance
     {
         private string _first, _second;
         private int _result;
         private LetterMatrix _matrix;
-        public LevenshteinDistance(string a, string b)
+        public DamerauLevenshtein(string a, string b)
         {
             _first = a;
             _second = b;
@@ -20,13 +20,15 @@ namespace Lab01.StringDistanceMeasure
 
         public override int GetDistance()
         {
-            return  _result;
+            return _result;
         }
 
         public override LetterMatrix GetLetterMatrix()
         {
             return _matrix;
         }
+
+        public override string MethodName => "Дамерау-Левенштейна";
 
         private void Calculate()
         {
@@ -50,9 +52,23 @@ namespace Lab01.StringDistanceMeasure
                     {
                         _matrix[i, j] = j;
                     }
-                    else
+                    else if(i > 1 && j > 1 && _first[i - 1] == _second[j - 2] && _first[i - 2] == _second[j - 1])
                     {
 
+                        var diff = 0;
+                        if (_first[i - 1] == _second[j - 1])
+                            diff = 0;
+                        else
+                            diff = 1;
+
+                        int insertion = _matrix[i - 1, j] + 1;
+                        int deletion = _matrix[i, j - 1] + 1;
+                        int substitution = _matrix[i - 1, j - 1] + diff;
+                        int replacement = _matrix[i - 2, j - 2] + 1;
+                        _matrix[i, j] = Min(insertion, deletion, substitution, replacement);
+                    }
+                    else
+                    {
                         var diff = 0;
                         if (_first[i - 1] == _second[j - 1])
                             diff = 0;
@@ -69,7 +85,5 @@ namespace Lab01.StringDistanceMeasure
 
             _result = _matrix[s1Len, s2Len];
         }
-
-        public override string MethodName => "Расстояние Левенштейна";
     }
 }
