@@ -27,19 +27,25 @@ namespace Lab01
                 if(distance == null)
                     continue;
 
-                DateTime now = DateTime.Now;
+                System.Diagnostics.Stopwatch stopwatch = new System.Diagnostics.Stopwatch();
+
+
+                GC.Collect();
+
+                stopwatch.Start();
 
                 int result = distance.GetDistance();
 
-                TimeSpan span = DateTime.Now - now;
+                stopwatch.Stop();
 
                 LetterMatrix matrix = distance.GetLetterMatrix();
                 Console.WriteLine("Метод: " + distance.MethodName);
                 Console.WriteLine("Значение: " + result);
-                Console.WriteLine("Матрица: \n");
+                Console.WriteLine("Матрица: ");
                 Console.Write(matrix.ToString());
                 
-                Console.WriteLine("Прошло времени (тиков): " + span.Ticks);
+                Console.WriteLine("Прошло времени (тиков): " + stopwatch.ElapsedTicks);
+                Console.WriteLine("Прошло времени (секунд): " + stopwatch.ElapsedMilliseconds / 1000f);
                 Console.WriteLine("\n");
             }
 
