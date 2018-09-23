@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,8 +10,18 @@ namespace Lab01
 {
     class Program
     {
+        private static Random _rnd = new Random();
+
         static void Main(string[] args)
         {
+            if (args.Length > 0 && args[0] == "-t")
+            {
+                TestTime();
+                Console.WriteLine("TESTING COMPLETED");
+                Console.ReadKey();
+                return;
+            }
+
             string a, b;
 
             Console.Write("Первая строка: ");
@@ -50,6 +61,58 @@ namespace Lab01
             }
 
             Console.ReadKey();
+        }
+
+        static char GetRandomLetter()
+        {
+            int distance = 'я' - 'a';
+            int val = _rnd.Next(0, distance);
+            return (char) ('a' + val);
+        }
+
+        static string GetRandomWord(int lenght)
+        {
+            string result = "";
+
+            for (int i = 0; i < lenght; i++)
+            {
+                result += GetRandomLetter();
+            }
+
+            return result;
+        }
+
+        static void TestTime()
+        {
+            int repeatCount = 1000;
+            int currentWordLength = 0;
+            int finalWordLength = 16;
+
+            for (; currentWordLength < finalWordLength; currentWordLength++)
+            {
+                Console.WriteLine("Word length: " + currentWordLength);
+
+                foreach (StringDistance.Measure method in Enum.GetValues(typeof(StringDistance.Measure)))
+                {
+                    string a = GetRandomWord(currentWordLength);
+                    string b = GetRandomWord(currentWordLength);
+
+                    Stopwatch watch = new Stopwatch();
+                    watch.Start();
+                    for (int i = 0; i < repeatCount; i++)
+                    {
+                        StringDistance measureMethod = StringDistance.StringDistanceBuilder.GetInstance(method, a, b);
+                        int result = measureMethod.GetDistance();
+                    }
+                    watch.Stop();
+
+                    long ticks = watch.ElapsedTicks;
+                    double avgTicks = (double)ticks / repeatCount;
+                    Console.WriteLine("Method: " + method.ToString() + "; Ticks average: " + avgTicks);
+                }
+
+                Console.WriteLine();
+            }
         }
     }
 }

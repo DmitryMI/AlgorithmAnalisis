@@ -43,6 +43,8 @@ namespace Lab01.StringDistanceMeasure
 
         public override string MethodName => "Дамерау-Левенштейна";
 
+        
+
         private void Calculate()
         {
             int s1Len = _first.Length;

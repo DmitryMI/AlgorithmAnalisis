@@ -1,0 +1,1 @@
+Lab01\bin\Debug\Lab01.exe -t
