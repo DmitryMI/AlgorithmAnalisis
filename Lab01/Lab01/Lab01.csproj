@@ -48,6 +48,7 @@
     <Compile Include="StringDistanceMeasure\LevenshteinRecursive.cs" />
     <Compile Include="StringDistanceMeasure\LetterMatrix.cs" />
     <Compile Include="StringDistanceMeasure\LevenshteinDistance.cs" />
+    <Compile Include="StringDistanceMeasure\LevenshteinRecursiveTest.cs" />
     <Compile Include="StringDistanceMeasure\StringDistance.cs" />
     <Compile Include="StringDistanceMeasure\DamerauLevenshtein.cs" />
   </ItemGroup>

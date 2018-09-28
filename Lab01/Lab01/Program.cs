@@ -22,6 +22,14 @@ namespace Lab01
                 return;
             }
 
+            if (args.Length > 0 && args[0] == "-rt")
+            {
+                TestTree();
+                Console.WriteLine("TESTING COMPLETED");
+                Console.ReadKey();
+                return;
+            }
+
             string a, b;
 
             Console.Write("Первая строка: ");
@@ -113,6 +121,12 @@ namespace Lab01
 
                 Console.WriteLine();
             }
+        }
+
+        static void TestTree()
+        {
+            LevenshteinRecursiveTest test = new LevenshteinRecursiveTest("Дверь", "Двор");
+            test.GetDistance();
         }
     }
 }
