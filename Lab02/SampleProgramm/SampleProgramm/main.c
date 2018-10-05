@@ -139,12 +139,12 @@ void calculate_forces(celestial_body *bodies, vector3 *forces, int count)
 		for (int j = 0; j < count; j++)
 		{
 
-			if(i == j)
+			if (i == j)
 				continue;
 
 			vector3 direction = sub_vectors(&bodies[j].position, &bodies[i].position);
 			normalize(&direction);
-			
+
 			double distance = get_distance(&bodies[j].position, &bodies[i].position);
 			double force_power = calculate_force(distance, bodies[j].mass, bodies[i].mass);
 
@@ -152,9 +152,10 @@ void calculate_forces(celestial_body *bodies, vector3 *forces, int count)
 			mult_vector(&force_part, force_power);
 
 			forces[i] = summ_vectors(&forces[i], &force_part);
+		}
 #else
 		for (int j = i + 1; j < count; j++)
-		{			
+		{
 			vector3 direction = sub_vectors(&bodies[j].position, &bodies[i].position);
 			normalize(&direction);
 
@@ -168,8 +169,8 @@ void calculate_forces(celestial_body *bodies, vector3 *forces, int count)
 
 			forces[i] = summ_vectors(&forces[i], &force_part_i);
 			forces[j] = summ_vectors(&forces[j], &force_part_j);
-#endif
 		}
+#endif		
 	}
 }
 
