@@ -1,5 +1,6 @@
 ﻿
 using System;
+using System.Runtime.InteropServices;
 
 namespace Lab03.Matrixes
 {
@@ -23,6 +24,14 @@ namespace Lab03.Matrixes
             _cols = cols;
 
             _data = new int[rows, cols];
+        }
+
+        public Matrix(int rows, int cols, int[,] buffer)
+        {
+            _rows = rows;
+            _cols = cols;
+
+            _data = buffer;
         }
 
         public int Rows => _rows;

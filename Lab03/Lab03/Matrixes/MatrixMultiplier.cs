@@ -14,8 +14,10 @@
                     break;
 
                 case MultiplicationMethod.Winograd:
+                    multiplier = new WinogradMultiplier();
                     break;
                 case MultiplicationMethod.EnhancedWinograd:
+                    multiplier = new EnhancedWinogradMultiplier();
                     break;
             }
 
