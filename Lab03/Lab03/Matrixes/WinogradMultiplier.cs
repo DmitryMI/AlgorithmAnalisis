@@ -27,7 +27,7 @@ namespace Lab03.Matrixes
             int b = g.Cols;
             int c = h.Cols;
 
-            int d = (b) / 2;
+            int d = b / 2;
 
             int[] rowFactors  = new int[a];
             int[] colFactors = new int[c];
@@ -40,7 +40,7 @@ namespace Lab03.Matrixes
                 rowFactors[i] = g[i, 0] * g[i, 1];
                 for (int j = 2; j <= d; j++)
                 {
-                    rowFactors[i] = rowFactors[i] + g[i, 2 * j - 1 - 1] * g[i, 2 * j - 1];
+                    rowFactors[i] = rowFactors[i] + g[i, 2 * j - 2] * g[i, 2 * j - 1];
                 }
             }
 
@@ -50,7 +50,7 @@ namespace Lab03.Matrixes
                 colFactors[i] = h[0, i] * h[1, i];
                 for (int j = 2; j <= d; j++)
                 {
-                    colFactors[i] = colFactors[i] + h[2 * j - 1 - 1, i] * h[2 * j - 1, i];
+                    colFactors[i] = colFactors[i] + h[2 * j - 2, i] * h[2 * j - 1, i];
                 }
             }
 
@@ -63,8 +63,8 @@ namespace Lab03.Matrixes
                     for (int k = 1; k <= d ; k++)
                     {
                         r[i, j] = r[i, j] +
-                                  (g[i, 2 * (k) - 1 - 1] + h[2 * (k) - 1, j]) *
-                                  (g[i, 2 * (k) - 1] + h[2 * (k) - 1 - 1, j]);
+                                  (g[i, 2 * k - 2] + h[2 * k - 1, j]) *
+                                  (g[i, 2 * k - 1] + h[2 * k - 2, j]);
                     }
                 }
             }

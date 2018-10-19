@@ -89,11 +89,17 @@ namespace Lab03
             Console.WriteLine(m1);
             Console.WriteLine("\nSecond matrix: ");
             Console.WriteLine(m2);
-            Console.WriteLine("\nEstimated result: ");
-            Console.WriteLine(correctResult);
+            
             Console.WriteLine("\nTest result: ");
             Console.WriteLine(testResult);
-            Console.WriteLine(correctResult.Equals(testResult) ? "CORRECT" : "WRONG RESULT!");
+
+            bool correct = correctResult.Equals(testResult);
+            Console.WriteLine(correct ? "CORRECT" : "WRONG RESULT!");
+            if (!correct)
+            {
+                Console.WriteLine("\nEstimated result: ");
+                Console.WriteLine(correctResult);
+            }
 
             // Testing odd size
             m1 = new Matrix(3, 3);
@@ -112,11 +118,17 @@ namespace Lab03
             Console.WriteLine(m1);
             Console.WriteLine("\nSecond matrix: ");
             Console.WriteLine(m2);
-            Console.WriteLine("\nEstimated result: ");
-            Console.WriteLine(correctResult);
             Console.WriteLine("\nTest result: ");
             Console.WriteLine(testResult);
-            Console.WriteLine(correctResult.Equals(testResult) ? "CORRECT" : "WRONG RESULT!");
+
+            correct = correctResult.Equals(testResult);
+            Console.WriteLine(correct ? "CORRECT" : "WRONG RESULT!");
+            if (!correct)
+            {
+                Console.WriteLine("\nEstimated result: ");
+                Console.WriteLine(correctResult);
+            }
+
         }
     }
 }
