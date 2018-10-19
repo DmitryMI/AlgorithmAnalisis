@@ -75,10 +75,10 @@ namespace Lab03
             // Testing even size
             Matrix m1 = new Matrix(4, 4);
             Matrix m2 = new Matrix(4, 4);
-            //Matrix.GenerateRandom(m1, 0, 16);
-            //Matrix.GenerateRandom(m2, 0, 16);
-            FillSequentially(m1, 1, 1);
-            FillSequentially(m2, 16, -1);
+            Matrix.GenerateRandom(m1, 0, 16);
+            Matrix.GenerateRandom(m2, 0, 16);
+            //FillSequentially(m1, 1, 1);
+            //FillSequentially(m2, 16, -1);
 
             Matrix correctResult = new SimpleMultiplier().Multiply(m1, m2);
 
@@ -98,10 +98,10 @@ namespace Lab03
             // Testing odd size
             m1 = new Matrix(3, 3);
             m2 = new Matrix(3, 3);
-            //Matrix.GenerateRandom(m1, 0, 9);
-            //Matrix.GenerateRandom(m2, 0, 9);
-            FillSequentially(m1, 1, 1);
-            FillSequentially(m2, 9, -1);
+            Matrix.GenerateRandom(m1, 0, 9);
+            Matrix.GenerateRandom(m2, 0, 9);
+            //FillSequentially(m1, 1, 1);
+            //FillSequentially(m2, 9, -1);
 
             correctResult = new SimpleMultiplier().Multiply(m1, m2);
 
