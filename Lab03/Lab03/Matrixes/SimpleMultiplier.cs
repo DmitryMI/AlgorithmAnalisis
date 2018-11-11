@@ -39,7 +39,7 @@ namespace Lab03.Matrixes
                     r[i, j] = 0;
                     for (int k = 0; k < a.Rows; k++)
                     {
-                        r[i, j] += a[i, k] * b[k, j];
+                        r[i, j] = r[i,j] +  a[i, k] * b[k, j];
                     }
                 }
             }
