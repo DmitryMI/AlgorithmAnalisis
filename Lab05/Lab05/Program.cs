@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,6 +11,8 @@ namespace Lab05
 {
     class Program
     {
+        private static List<string> _logBuffer = new List<string>();
+
         static bool TestMultipication(Matrix a, Matrix b, Matrix assertedResult)
         {
             Matrix correctResult = new SimpleMultiplier().Multiply(a, b);
@@ -18,13 +21,10 @@ namespace Lab05
 
         static void Main(string[] args)
         {
-            Console.WriteLine("Testing simple: ");
-            TestSimpleParallel();
+            //ExperimentSimple();
+            ExperimentWinograd();
 
-
-            Console.WriteLine("Testing winograd: ");
-            TestWinogradParallel();
-
+            Console.WriteLine("Programm finished...");
             Console.ReadKey();
         }
 
@@ -80,6 +80,66 @@ namespace Lab05
                 Console.WriteLine("OK");
             }
 
+        }
+
+        static void ExperimentSimple()
+        {
+            int matrixSize = 600;
+
+            int processorCount = Environment.ProcessorCount;
+
+            int thresold = (int)Math.Pow(2, processorCount + 2);
+            int currentThreadCount = 1;
+
+            Matrix a = new Matrix(matrixSize, matrixSize);
+            Matrix.GenerateRandom(a, 0, matrixSize * matrixSize);
+
+            Matrix b = new Matrix(matrixSize, matrixSize);
+            Matrix.GenerateRandom(b, 0, matrixSize * matrixSize);
+
+            SimpleMultiplierParallel parallel = new SimpleMultiplierParallel();
+
+            while (currentThreadCount <= thresold)
+            {
+                parallel.Process(currentThreadCount, a, b);
+                WriteInfo(currentThreadCount, parallel.Ticks);
+                currentThreadCount *= 2;
+            }
+
+            File.WriteAllLines("simple.txt", _logBuffer);
+        }
+
+        static void ExperimentWinograd()
+        {
+            int matrixSize = 600;
+
+            int processorCount = Environment.ProcessorCount;
+
+            int thresold = (int)Math.Pow(2, processorCount + 2);
+            int currentThreadCount = 1;
+
+            Matrix a = new Matrix(matrixSize, matrixSize);
+            Matrix.GenerateRandom(a, 0, matrixSize * matrixSize);
+
+            Matrix b = new Matrix(matrixSize, matrixSize);
+            Matrix.GenerateRandom(b, 0, matrixSize * matrixSize);
+
+            WinogradMultiplierParallel parallel = new WinogradMultiplierParallel();
+
+            while (currentThreadCount <= thresold)
+            {
+                parallel.Process(currentThreadCount, a, b);
+                WriteInfo(currentThreadCount, parallel.Ticks);
+                currentThreadCount *= 2;
+            }
+
+            File.WriteAllLines("winograd.txt", _logBuffer);
+        }
+
+        static void WriteInfo(int threads, long ticks)
+        {
+            _logBuffer.Add(threads.ToString() + " " + ticks + " ");
+            Console.WriteLine("Thread count: " + threads + ", ticks: " + ticks);
         }
     }
 }
