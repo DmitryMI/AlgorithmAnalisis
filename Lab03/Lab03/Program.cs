@@ -7,7 +7,7 @@ namespace Lab03
     {
         static void Main(string[] args)
         {
-            //TestEnhancedWinograd();
+
             Analize();
 
             Console.ReadKey();
@@ -28,7 +28,7 @@ namespace Lab03
 
                 MatrixMultiplier multiplier = MatrixMultiplier.GetMatrixMultiplier(method);
 
-                for (int size = 100; size <= 1000; size += 100)
+                for (int size = 100; size <= 400; size += 100)
                 {
                     Matrix left = new Matrix(size, size);
                     Matrix right = new Matrix(size, size);
@@ -46,13 +46,13 @@ namespace Lab03
         {
             long ticks = 0;
 
-            for (int i = 0; i < 100; i++)
+            for (int i = 0; i < 1; i++)
             {
                 multiplier.Multiply(a, b);
                 ticks += multiplier.Ticks;
             }
 
-            return ticks / 100;
+            return ticks / 1;
         }
 
         static void FillSequentially(Matrix a, int initial, int shift)

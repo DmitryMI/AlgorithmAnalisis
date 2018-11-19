@@ -30,21 +30,24 @@ namespace Lab03.Matrixes
 
         private Matrix Process(Matrix a, Matrix b)
         {
-            Matrix r = new Matrix(a.Cols, b.Rows, _matrixBuffer);
+            Matrix r = new Matrix(a.Cols, b.Rows, _matrixBuffer); 
 
-            for (int i = 0; i < r.Rows; i++)
+            // i = 0 - запись в память
+            for (int i = 0; i < r.Rows; i++) // При каждой итерации: сравнение, инкремент (2)
             {
-                for (int j = 0; j < r.Cols; j++)
+                // запись в память
+                for (int j = 0; j < r.Cols; j++) // При каждой итерации: сравнение, инкремент (2)
                 {
-                    r[i, j] = 0;
-                    for (int k = 0; k < a.Rows; k++)
+                    r[i, j] = 0; // Запись в память
+                    // Запись в память
+                    for (int k = 0; k < a.Rows; k++) // При каждой итерации: сравнение, инкремент (2)
                     {
-                        r[i, j] += a[i, k] * b[k, j];
+                        r[i, j] = r[i, j] + a[i, k] * b[k, j]; // При каждой итерации: чтение, чтение, чтение, умножение, сложение, запись (6)
                     }
                 }
             }
 
-            return r;
+            return r; // Запись в память
         }
     }
 }

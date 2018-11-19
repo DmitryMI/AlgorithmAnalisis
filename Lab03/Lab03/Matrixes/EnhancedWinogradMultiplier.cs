@@ -58,12 +58,9 @@ namespace Lab03.Matrixes
 
         // Enhancement 2: replace 2 * (b / 2) with precalculated division
         // line int d = b / 2 uses division of b, we can use this value for two times
-        
+
         // Enhancement 3: replace multiplication and subtraction of block-const values with precalculated values
-
-        // Enhancement 4: Created buffers to prevent memory reallocation
-
-         private Matrix Process(Matrix g, Matrix h)
+        private Matrix Process(Matrix g, Matrix h)
         {
             int a = g.Rows;
             int b = g.Cols;
