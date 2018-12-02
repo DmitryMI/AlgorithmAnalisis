@@ -23,10 +23,8 @@ namespace Lab05
 
         static void Main(string[] args)
         {
-            /*ExperimentSimple();
+            ExperimentSimple();
             ExperimentWinograd();
-            //TestSimpleParallel();*/
-            TestWinogradParallel();
 
             Console.WriteLine("Programm finished...");
             Console.ReadKey();
