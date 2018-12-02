@@ -11,6 +11,8 @@ namespace Lab05
 {
     class Program
     {
+        private const int TestingMatrixSize = 123;
+
         private static List<string> _logBuffer = new List<string>();
 
         static bool TestMultipication(Matrix a, Matrix b, Matrix assertedResult)
@@ -21,8 +23,10 @@ namespace Lab05
 
         static void Main(string[] args)
         {
-            //ExperimentSimple();
+            /*ExperimentSimple();
             ExperimentWinograd();
+            //TestSimpleParallel();*/
+            TestWinogradParallel();
 
             Console.WriteLine("Programm finished...");
             Console.ReadKey();
@@ -30,11 +34,11 @@ namespace Lab05
 
         static void TestSimpleParallel()
         {
-            Matrix a = new Matrix(100, 100);
-            Matrix.GenerateRandom(a, 0, 100 * 100);
+            Matrix a = new Matrix(TestingMatrixSize, TestingMatrixSize);
+            Matrix.GenerateRandom(a, 0, TestingMatrixSize * TestingMatrixSize);
 
-            Matrix b = new Matrix(100, 100);
-            Matrix.GenerateRandom(b, 0, 100 * 100);
+            Matrix b = new Matrix(TestingMatrixSize, TestingMatrixSize);
+            Matrix.GenerateRandom(b, 0, TestingMatrixSize * TestingMatrixSize);
 
             SimpleMultiplierParallel par = new SimpleMultiplierParallel();
 
@@ -57,11 +61,11 @@ namespace Lab05
 
         static void TestWinogradParallel()
         {
-            Matrix a = new Matrix(100, 100);
-            Matrix.GenerateRandom(a, 0, 100 * 100);
+            Matrix a = new Matrix(TestingMatrixSize, TestingMatrixSize);
+            Matrix.GenerateRandom(a, 0, TestingMatrixSize * TestingMatrixSize);
 
-            Matrix b = new Matrix(100, 100);
-            Matrix.GenerateRandom(b, 0, 100 * 100);
+            Matrix b = new Matrix(TestingMatrixSize, TestingMatrixSize);
+            Matrix.GenerateRandom(b, 0, TestingMatrixSize * TestingMatrixSize);
 
             WinogradMultiplierParallel par = new WinogradMultiplierParallel();
 

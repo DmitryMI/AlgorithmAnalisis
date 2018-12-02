@@ -25,7 +25,7 @@ namespace Lab05.Matrixes.MatrixesParallel
 
 
         // Part one values
-        private int[] rowFactors, colFactors;
+        private int[] _rowFactors, _colFactors;
 
 
         public Matrix Result => _result;
@@ -44,69 +44,79 @@ namespace Lab05.Matrixes.MatrixesParallel
 
             _result = new Matrix(_a, _c);
 
-            rowFactors = new int[_a];
-            colFactors = new int[_b];
+            _lineCount = _result.Rows;
 
-            List<Thread> threadPool = new List<Thread>();
+            _rowFactors = new int[_a];
+            _colFactors = new int[_b];
 
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
 
+            DoParallel(GetRowFactors);
 
-            // Processing row factors
+            DoParallel(GetColFactors);
 
-            for (int i = 0; i < _totalThreads; i++)
-            {
-                Thread thread = new Thread(GetRowFactors);
-                thread.Start(i);
-                threadPool.Add(thread);
-            }
-
-            WaitForAll(threadPool);
-            threadPool.Clear();
-
-
-            // Processing col factors
-
-            for (int i = 0; i < _totalThreads; i++)
-            {
-                Thread thread = new Thread(GetColFactors);
-                thread.Start(i);
-                threadPool.Add(thread);
-            }
-
-            WaitForAll(threadPool);
-            threadPool.Clear();
-
-
-            // Calculating matrix
-            for (int i = 0; i < _totalThreads; i++)
-            {
-                Thread thread = new Thread(MatrixCalculation);
-                thread.Start(i);
-                threadPool.Add(thread);
-            }
-
-            WaitForAll(threadPool);
-            threadPool.Clear();
+            DoParallel(MatrixCalculation);
 
             // Adding remainders
             if (_b % 2 == 1)
             {
-                for (int i = 0; i < _totalThreads; i++)
-                {
-                    Thread thread = new Thread(AddRemainders);
-                    thread.Start(i);
-                    threadPool.Add(thread);
-                }
-
-                WaitForAll(threadPool);
-                threadPool.Clear();
+                DoParallel(AddRemainders);
             }
 
 
             stopwatch.Stop();
             _ticks = stopwatch.ElapsedTicks;
+        }
+
+        private void DoParallel(ParameterizedThreadStart job)
+        {
+            Thread[] threads = new Thread[_totalThreads];
+
+            int threadRange = _lineCount / _totalThreads;
+            int remainder = _lineCount % _totalThreads;
+
+            int last = 0;
+
+            for (int i = 0; i < _totalThreads; i++)
+            {
+                threads[i] = new Thread(job);
+
+                int start = i * threadRange;
+                int end = start + threadRange;
+                JobPart jobPart = new JobPart(start, end);
+                threads[i].Start(jobPart);
+                last = end;
+            }
+
+            // Adding remainders
+            List<JobPart> jobParts = new List<JobPart>(remainder);
+            for (int i = 0; i < remainder; i++)
+            {
+                jobParts.Add(new JobPart(last, last + 1));
+                last++;
+            }
+
+            // Searching for finished threads
+            while (jobParts.Count > 0)
+            {
+                for (int i = 0; i < threads.Length; i++)
+                {
+                    if (!threads[i].IsAlive)
+                    {
+                        //threads[i].Start(jobParts[0]);
+                        threads[i] = new Thread(job);
+                        threads[i].Start(jobParts[0]);
+                        break;
+                    }
+                }
+                jobParts.RemoveAt(0);
+            }
+
+            for (int i = 0; i < threads.Length; i++)
+            {
+                threads[i].Join();
+            }
         }
 
         private void WaitForAll(IEnumerable<Thread> theads)
@@ -119,64 +129,49 @@ namespace Lab05.Matrixes.MatrixesParallel
 
 
 
-        private void GetRowFactors(object threadNumObj)
+        private void GetRowFactors(object jobPartObject)
         {
-            int threadNum = (int) threadNumObj;
-
-            int range = (int)Math.Ceiling((double)_a / _totalThreads);
-
-            int startRow = threadNum * range;
-            int endRow = startRow + range;
-            if (endRow > _a)
-                endRow = _a;
+            JobPart part = (JobPart)jobPartObject;
+            int startRow = part.Start;
+            int endRow = part.End;
 
             for (int i = startRow; i < endRow; i++)
             {
-                rowFactors[i] = _g[i, 0] * _g[i, 1];
+                _rowFactors[i] = _g[i, 0] * _g[i, 1];
                 for (int j = 2; j <= _d; j++)
                 {
-                    rowFactors[i] = rowFactors[i] + _g[i, 2 * j - 2] * _g[i, 2 * j - 1];
+                    _rowFactors[i] = _rowFactors[i] + _g[i, 2 * j - 2] * _g[i, 2 * j - 1];
                 }
             }
         }
 
-        private void GetColFactors(object threadNumObj)
+        private void GetColFactors(object jobPartObject)
         {
-            int threadNum = (int) threadNumObj;
-
-            int range = (int)Math.Ceiling((double)_c / _totalThreads);
-
-            int startRow = threadNum * range;
-            int endRow = startRow + range;
-            if (endRow > _c)
-                endRow = _c;
+            JobPart part = (JobPart)jobPartObject;
+            int startRow = part.Start;
+            int endRow = part.End;
 
             for (int i = startRow; i < endRow; i++)
             {
-                colFactors[i] = _h[0, i] * _h[1, i];
+                _colFactors[i] = _h[0, i] * _h[1, i];
                 for (int j = 2; j <= _d; j++)
                 {
-                    colFactors[i] = colFactors[i] + _h[2 * j - 2, i] * _h[2 * j - 1, i];
+                    _colFactors[i] = _colFactors[i] + _h[2 * j - 2, i] * _h[2 * j - 1, i];
                 }
             }
         }
 
-        private void MatrixCalculation(object threadNumObj)
+        private void MatrixCalculation(object jobPartObject)
         {
-            int threadNum = (int) threadNumObj;
-
-            int range = (int)Math.Ceiling((double)_a / _totalThreads);
-
-            int startRow = threadNum * range;
-            int endRow = startRow + range;
-            if (endRow > _a)
-                endRow = _a;
+            JobPart part = (JobPart)jobPartObject;
+            int startRow = part.Start;
+            int endRow = part.End;
 
             for (int i = startRow; i < endRow; i++)
             {
                 for (int j = 0; j < _c; j++)
                 {
-                    _result[i, j] = -rowFactors[i] - colFactors[j];
+                    _result[i, j] = -_rowFactors[i] - _colFactors[j];
                     for (int k = 1; k <= _d; k++)
                     {
                         _result[i, j] = _result[i, j] +
@@ -187,16 +182,11 @@ namespace Lab05.Matrixes.MatrixesParallel
             }
         }
 
-        private void AddRemainders(object threadNumObj)
+        private void AddRemainders(object jobPartObject)
         {
-            int threadNum = (int) threadNumObj;
-
-            int range = (int)Math.Ceiling((double)_a / _totalThreads);
-
-            int startRow = threadNum * range;
-            int endRow = startRow + range;
-            if (endRow > _a)
-                endRow = _a;
+            JobPart part = (JobPart) jobPartObject;
+            int startRow = part.Start;
+            int endRow = part.End;
 
             for (int i = startRow; i < endRow; i++)
             {

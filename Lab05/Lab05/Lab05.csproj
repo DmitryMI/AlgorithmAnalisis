@@ -43,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Matrixes\Matrix.cs" />
+    <Compile Include="Matrixes\MatrixesParallel\JobPart.cs" />
     <Compile Include="Matrixes\MatrixesParallel\SimpleMultiplierParallel.cs" />
     <Compile Include="Matrixes\MatrixesParallel\WinogradMultiplierParallel.cs" />
     <Compile Include="Matrixes\MatrixMultiplier.cs" />

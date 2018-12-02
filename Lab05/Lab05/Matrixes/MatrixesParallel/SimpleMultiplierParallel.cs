@@ -26,25 +26,59 @@ namespace Lab05.Matrixes.MatrixesParallel
 
             _result = new Matrix(a.Cols, b.Rows);
             _lineCount = _result.Rows;
-            _oneThreadRange = (int)Math.Ceiling((double)_lineCount / _totalThreads);
 
             Thread[] threads = new Thread[threadCount];
 
             Stopwatch timer = new Stopwatch();
             timer.Start();
+
+            // Task scheduling here
+            int oneThreadRange = _lineCount / threadCount;
+            int remainder = _lineCount % threadCount;
+            List<JobPart> jobParts = new List<JobPart>(remainder);
+
+            int last = 0;
             for (int i = 0; i < threadCount; i++)
             {
-                Thread thread = new Thread(new ParameterizedThreadStart(Multiply));
-                thread.Start(i);
-                threads[i] = thread;
+                int start = i * oneThreadRange;
+                int end = start + oneThreadRange;
+                JobPart jobPart = new JobPart(start, end);
+                threads[i] = new Thread(Multiply);
+                threads[i].Start(jobPart);
+                last = end;
             }
 
-            for (int i = 0; i < threadCount; i++)
+            // Adding remainders
+            for (int i = 0; i < remainder; i++)
+            {
+                jobParts.Add(new JobPart(last, last + 1));
+                last++;
+            }
+
+            // Searching for finished threads
+            while (jobParts.Count > 0)
+            {
+                for (int i = 0; i < threads.Length; i++)
+                {
+                    if (!threads[i].IsAlive)
+                    {
+                        //threads[i].Start(jobParts[0]);
+                        threads[i] = new Thread(Multiply);
+                        threads[i].Start(jobParts[0]);
+                        break;
+                    }
+                }
+                jobParts.RemoveAt(0);
+            }
+
+            for (int i = 0; i < threads.Length; i++)
             {
                 threads[i].Join();
             }
 
-            timer.Stop();
+            // end of scheduling
+
+                timer.Stop();
             _ticks = timer.ElapsedTicks;
         }
 
