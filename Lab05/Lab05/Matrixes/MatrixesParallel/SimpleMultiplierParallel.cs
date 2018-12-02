@@ -51,11 +51,11 @@ namespace Lab05.Matrixes.MatrixesParallel
         public Matrix Result => _result;
         public long Ticks => _ticks;
 
-        private void Multiply(object threadNumObj)
+        private void Multiply(object jobPartObj)
         {
-            int threadNum = (int) threadNumObj;
-            int startRow = threadNum * _oneThreadRange;
-            int endRow = startRow + _oneThreadRange;
+            JobPart jobPart = (JobPart)jobPartObj;
+            int startRow = jobPart.Start;
+            int endRow = jobPart.End;
             if (endRow > _lineCount)
                 endRow = _lineCount;
 
