@@ -2,6 +2,8 @@
 {
     enum MultiplicationMethod
     {
-        Simple, EnhancedWinograd, Winograd
+
+        Simple,  Winograd, EnhancedWinograd
+
     }
 }

@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{C4EE1AE6-5162-49B6-9236-8C610A3B9602}</ProjectGuid>
+    <ProjectGuid>{2A13EFEC-44EC-4FCF-876C-294E2316F10E}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>Lab03</RootNamespace>
-    <AssemblyName>Lab03</AssemblyName>
+    <RootNamespace>Lab04</RootNamespace>
+    <AssemblyName>Lab04</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -21,18 +21,15 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
-    <Optimize>false</Optimize>
+    <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>
-    </DefineConstants>
+    <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -45,14 +42,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Matrixes\EnhancedWinogradMultiplier.cs" />
-    <Compile Include="Matrixes\Matrix.cs" />
-    <Compile Include="Matrixes\MatrixMultiplier.cs" />
-    <Compile Include="Matrixes\MultiplicationMethod.cs" />
-    <Compile Include="Matrixes\SimpleMultiplier.cs" />
-    <Compile Include="Matrixes\WinogradMultiplier.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Sorting\MergeSorter.cs" />
+    <Compile Include="Sorting\RadixSorter.cs" />
+    <Compile Include="Sorting\Sorter.cs" />
+    <Compile Include="Sorting\TreeSorter.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

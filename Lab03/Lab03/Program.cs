@@ -19,14 +19,15 @@ namespace Lab03
 
             Array methods = Enum.GetValues(typeof(MultiplicationMethod));
 
-            for (int i = methods.Length - 1; i >= 0; i--)
-            //for (int i = 0; i < methods.Length; i++)
+            //for (int i = methods.Length - 1; i >= 0; i--)
+            for (int i = 0; i < methods.Length; i++)
             {
                 MultiplicationMethod method = (MultiplicationMethod)methods.GetValue(i);
 
                 Console.WriteLine("\nMethod: " + method);
 
                 MatrixMultiplier multiplier = MatrixMultiplier.GetMatrixMultiplier(method);
+                //MatrixMultiplier multiplier = new WinogradMultiplier();
 
                 for (int size = 100; size <= 400; size += 100)
                 {
@@ -35,24 +36,28 @@ namespace Lab03
                     Matrix.GenerateRandom(left, 0, size);
                     Matrix.GenerateRandom(right, 0, size);
 
-                    long ticksAvg = Test100Times(multiplier, left, right);
+                    long ticksAvg = TestNTimes(multiplier, left, right, 1);
 
                     Console.WriteLine("Size: " + size + ". Ticks: " + ticksAvg);
                 }
             }
         }
 
-        static long Test100Times(MatrixMultiplier multiplier, Matrix a, Matrix b)
+        static long TestNTimes(MatrixMultiplier multiplier, Matrix a, Matrix b, int repeats)
         {
             long ticks = 0;
 
-            for (int i = 0; i < 1; i++)
+
+            for (int i = 0; i < repeats; i++)
+
             {
                 multiplier.Multiply(a, b);
                 ticks += multiplier.Ticks;
             }
 
-            return ticks / 1;
+
+            return ticks / repeats;
+
         }
 
         static void FillSequentially(Matrix a, int initial, int shift)
@@ -216,7 +221,6 @@ namespace Lab03
             correctResult = new SimpleMultiplier().Multiply(m1, m2);
 
             EnhancedWinogradMultiplier enhancedWinogradMultiplier = new EnhancedWinogradMultiplier();
-            enhancedWinogradMultiplier.SetBufferSize(3);
 
             testResult = enhancedWinogradMultiplier.Multiply(m1, m2);
 
