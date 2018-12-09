@@ -42,8 +42,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AcoProcessor.cs" />
-    <Compile Include="ConnectionMatrix.cs" />
+    <Compile Include="AcoAlgorithm\AcoProcessor.cs" />
+    <Compile Include="AcoAlgorithm\Ant.cs" />
+    <Compile Include="AcoAlgorithm\Bruteforcer.cs" />
+    <Compile Include="AcoAlgorithm\Graph.cs" />
+    <Compile Include="AcoAlgorithm\PheromonMatrix.cs" />
+    <Compile Include="AcoAlgorithm\Utils.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
