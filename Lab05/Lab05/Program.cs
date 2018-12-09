@@ -11,6 +11,7 @@ namespace Lab05
 {
     class Program
     {
+        private const int ExperimentMatrixSize = 601;
         private const int TestingMatrixSize = 123;
 
         private static List<string> _logBuffer = new List<string>();
@@ -86,7 +87,7 @@ namespace Lab05
 
         static void ExperimentSimple()
         {
-            int matrixSize = 600;
+            int matrixSize = ExperimentMatrixSize;
 
             int processorCount = Environment.ProcessorCount;
 
@@ -113,7 +114,7 @@ namespace Lab05
 
         static void ExperimentWinograd()
         {
-            int matrixSize = 600;
+            int matrixSize = ExperimentMatrixSize;
 
             int processorCount = Environment.ProcessorCount;
 
