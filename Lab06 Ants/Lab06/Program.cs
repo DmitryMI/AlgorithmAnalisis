@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,9 +15,9 @@ namespace Lab06
         private const double C = 1;
         private const double RoMin = 0.1;
         private const double RoMax = 1;
-        private const int TMin = 5;
-        private const int TMax = 10;
-        private const int Iterations = 5;
+        private const int TMin = 1;
+        private const int TMax = 5;
+        private const int Iterations = 10;
 
 
         static void Main(string[] args)
@@ -67,6 +68,8 @@ namespace Lab06
 
             List<double> results = new List<double>();
 
+            Graph graph = Graph.Builder.GetRandomPentagram();
+
             AcoProcessor processor = new AcoProcessor(Graph.Builder.GetRandomPentagram());
 
             foreach (var param in list)
@@ -78,6 +81,11 @@ namespace Lab06
 
             string output = Utils.ParamsToTable(list, results);
             Console.WriteLine(output);
+
+            Console.WriteLine("Graph: ");
+            Console.WriteLine(graph);
+
+            File.WriteAllLines("out.txt", output.Split('\n'));
         }
     }
 }

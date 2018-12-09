@@ -32,6 +32,7 @@ namespace Lab06.AcoAlgorithm
                 Ant ant = new Ant(0, _graph, pheromonMatrix, parameters);
                 while(ant.CanMove())
                     ant.Move();
+                ant.DoPheromon();
 
                 double antPathLen = ant.GetLength();
                 if (antPathLen < shortest)
