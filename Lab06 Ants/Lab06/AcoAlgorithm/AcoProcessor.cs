@@ -11,6 +11,12 @@ namespace Lab06.AcoAlgorithm
         public struct AcoParameters
         {
             public double alpha, beta, q, tMax, p, pheromonMin, pheromonInitial;
+
+            public override string ToString()
+            {
+                string result = "alpha: " + alpha + ", beta: " + beta + ", q: " + q + ", " + tMax + ", p: " + p;
+                return result;
+            }
         }
 
         public AcoProcessor(Graph graph)
