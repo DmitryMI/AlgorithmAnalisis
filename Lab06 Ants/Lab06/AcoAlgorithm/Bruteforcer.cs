@@ -33,21 +33,27 @@ namespace Lab06.AcoAlgorithm
 
             for (int i = 0; i < _iterations; i++)
             {
-                double beta = _c - alpha;
-                double ro = _roMin;
-                for (int j = 0; j < _iterations; j++)
+                /*double beta = _c - alpha;
+                double ro = _roMin;*/
+                double beta = _aMin;
+                for (int m = 0; m < _iterations; m++)
                 {
-                    for (int t = _tMin; t <= _tMax; t++)
-                    {
-                        AcoProcessor.AcoParameters iteration = paramBase;
-                        iteration.alpha = alpha;
-                        iteration.beta = beta;
-                        iteration.p = ro;
-                        iteration.tMax = t;
+                    double ro = _roMin;
+                    for (int j = 0; j < _iterations; j++)
+                    {                        
+                        for (int t = _tMin; t <= _tMax; t++)
+                        {
+                            AcoProcessor.AcoParameters iteration = paramBase;
+                            iteration.alpha = alpha;
+                            iteration.beta = beta;
+                            iteration.p = ro;
+                            iteration.tMax = t;
 
-                        result.Add(iteration);
+                            result.Add(iteration);
+                        }
+                        ro += roStep;
                     }
-                    ro += roStep;
+                    beta += alphaStep;
                 }
                 alpha += alphaStep;
                 if (alpha > _aMax)

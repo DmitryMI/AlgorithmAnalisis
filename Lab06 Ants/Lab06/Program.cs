@@ -72,11 +72,20 @@ namespace Lab06
 
             AcoProcessor processor = new AcoProcessor(Graph.Builder.GetRandomPentagram());
 
+            double shortestPath = double.PositiveInfinity;
+            AcoProcessor.AcoParameters optimal = new AcoProcessor.AcoParameters();
+
             foreach (var param in list)
             {
                 int[] path;
                 double result = processor.GetShortestPath(param, out path);
                 results.Add(result);
+
+                if(result < shortestPath)
+                {
+                    shortestPath = result;
+                    optimal = param;
+                }
             }
 
             string output = Utils.ParamsToTable(list, results);
@@ -86,6 +95,9 @@ namespace Lab06
             Console.WriteLine(graph);
 
             File.WriteAllLines("out.txt", output.Split('\n'));
+
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("Optimal: " + optimal.ToString() + ", result: " + shortestPath);
         }
     }
 }
